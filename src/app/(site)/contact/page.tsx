@@ -37,7 +37,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <dt className="text-charcoal/45">Telephone</dt>
-                <dd className="mt-1 text-[0.95rem]">+94 11 000 0000</dd>
+                <dd className="mt-1 text-[0.95rem]">+41-785-557-883</dd>
               </div>
             </dl>
             <h3 className="mt-10 font-serif text-xl font-normal">Private Salons</h3>
