@@ -33,7 +33,7 @@ export default function ContactPage() {
             <dl className="mt-8 space-y-5 border-y border-soft-border py-7 text-sm">
               <div>
                 <dt className="text-charcoal/45">Email</dt>
-                <dd className="mt-1 text-[0.95rem]">concierge@aureliagems.example</dd>
+                <dd className="mt-1 text-[0.95rem]">aureliagemsinfo@gmail.com</dd>
               </div>
               <div>
                 <dt className="text-charcoal/45">Telephone</dt>
