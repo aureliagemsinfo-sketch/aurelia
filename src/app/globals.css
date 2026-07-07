@@ -1,0 +1,1025 @@
+@import "tailwindcss";
+
+:root {
+  --ivory: #fbf7ef;
+  --soft-cream: #f6ecdd;
+  --porcelain: #fffdf8;
+  --charcoal: #171411;
+  --champagne: #c8a46a;
+  --dark-teal: #164848;
+  --luminous-teal: #236f6d;
+  --emerald: #008c69;
+  --ruby: #a10f2b;
+  --warm-wood: #b98245;
+  --soft-border: #e8ded0;
+  --background: var(--ivory);
+  --foreground: var(--charcoal);
+  --font-body-sans: Inter, "Helvetica Neue", Arial, sans-serif;
+  --font-body-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --font-editorial: var(--font-cormorant-garamond), "Cormorant Garamond", "Libre Baskerville", Georgia, serif;
+
+  /* Fluid typography variables for visual refinement */
+  --text-fluid-hero: clamp(2.2rem, 4vw, 4.5rem);
+  --text-fluid-section: clamp(1.75rem, 8vw, 2.5rem);
+  --text-fluid-card-title: clamp(1.2rem, 1.8vw, 1.45rem);
+  --text-fluid-detail: clamp(2rem, 4vw, 3.6rem);
+  --section-tablet-height: clamp(520px, 68vh, 720px);
+  --section-desktop-height: clamp(680px, 86vh, 920px);
+  --page-hero-tablet-height: clamp(480px, 58vh, 620px);
+  --page-hero-desktop-height: clamp(560px, 68vh, 760px);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --text-fluid-section: clamp(1.9rem, 4vw, 3rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --text-fluid-section: clamp(2.1rem, 3vw, 3.6rem);
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ivory: var(--ivory);
+  --color-soft-cream: var(--soft-cream);
+  --color-porcelain: var(--porcelain);
+  --color-charcoal: var(--charcoal);
+  --color-champagne: var(--champagne);
+  --color-dark-teal: var(--dark-teal);
+  --color-luminous-teal: var(--luminous-teal);
+  --color-emerald: var(--emerald);
+  --color-ruby: var(--ruby);
+  --color-warm-wood: var(--warm-wood);
+  --color-soft-border: var(--soft-border);
+  --font-sans: var(--font-body-sans);
+  --font-mono: var(--font-body-mono);
+  --font-serif: var(--font-editorial);
+  --text-fluid-hero: var(--text-fluid-hero);
+  --text-fluid-section: var(--text-fluid-section);
+  --text-fluid-card-title: var(--text-fluid-card-title);
+  --text-fluid-detail: var(--text-fluid-detail);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--ivory);
+  color-scheme: light;
+  scrollbar-color: rgb(200 164 106 / 64%) var(--soft-cream);
+  scrollbar-width: thin;
+}
+
+body {
+  margin: 0;
+  overflow-x: clip;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body-sans);
+}
+
+a,
+button,
+input,
+select,
+textarea {
+  border-radius: 0;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 1px solid rgb(200 164 106 / 42%);
+  outline-offset: 3px;
+}
+
+*::-webkit-scrollbar {
+  width: 0.72rem;
+  height: 0.72rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--soft-cream);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgb(200 164 106 / 62%);
+  border: 3px solid var(--soft-cream);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgb(184 142 78 / 78%);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--soft-cream);
+}
+
+.luxury-scrollbar {
+  scrollbar-color: rgb(200 164 106 / 64%) rgb(246 236 221 / 86%);
+  scrollbar-width: thin;
+}
+
+.luxury-scrollbar::-webkit-scrollbar {
+  width: 0.68rem;
+  height: 0.68rem;
+}
+
+.luxury-scrollbar::-webkit-scrollbar-track {
+  background: rgb(246 236 221 / 86%);
+}
+
+.luxury-scrollbar::-webkit-scrollbar-thumb {
+  background: rgb(200 164 106 / 64%);
+  border: 3px solid rgb(246 236 221 / 86%);
+  border-radius: 999px;
+}
+
+.luxury-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgb(184 142 78 / 82%);
+}
+
+.form-control {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 0.25rem;
+  color: var(--charcoal);
+  caret-color: var(--charcoal);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgb(200 164 106 / 46%);
+  border-radius: 0;
+  box-shadow: 0 1px 0 rgb(232 222 208 / 42%);
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    background-color 220ms ease;
+}
+
+.form-control::placeholder {
+  color: rgb(23 20 17 / 38%);
+}
+
+.form-control:hover {
+  border-color: rgb(200 164 106 / 68%);
+}
+
+.form-control:focus,
+.form-control:focus-visible {
+  background: rgb(255 253 248 / 44%);
+  border-color: var(--champagne);
+  outline: none;
+  box-shadow: 0 1px 0 rgb(200 164 106 / 82%);
+}
+
+textarea.form-control {
+  line-height: 1.7;
+  resize: vertical;
+  scrollbar-color: rgb(200 164 106 / 64%) rgb(246 236 221 / 78%);
+  scrollbar-width: thin;
+}
+
+textarea.form-control::-webkit-resizer {
+  background:
+    linear-gradient(135deg, transparent 0 48%, rgb(200 164 106 / 54%) 50% 58%, transparent 60%),
+    linear-gradient(135deg, transparent 0 64%, rgb(200 164 106 / 34%) 66% 74%, transparent 76%);
+}
+
+select.form-control {
+  appearance: none;
+  color: var(--charcoal);
+}
+
+select.form-control:invalid {
+  color: rgb(23 20 17 / 46%);
+}
+
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus,
+.form-control:-webkit-autofill:active {
+  -webkit-text-fill-color: var(--charcoal);
+  caret-color: var(--charcoal);
+  border-bottom-color: var(--champagne);
+  box-shadow:
+    0 0 0 1000px rgb(255 253 248 / 96%) inset,
+    0 1px 0 rgb(200 164 106 / 82%);
+  transition: background-color 9999s ease-out;
+}
+
+.form-action:focus-visible {
+  outline: 1px solid rgb(200 164 106 / 66%);
+  outline-offset: 4px;
+  box-shadow: 0 0 0 1px rgb(255 253 248 / 90%);
+}
+
+::selection {
+  background: var(--champagne);
+  color: var(--charcoal);
+}
+
+.site-header {
+  padding-top: env(safe-area-inset-top);
+}
+
+.drawer-header {
+  padding-top: env(safe-area-inset-top);
+}
+
+.header-utility {
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  min-height: 2.75rem;
+  transition: opacity 250ms ease;
+}
+
+.header-utility:hover {
+  opacity: 0.56;
+}
+
+.luxury-link {
+  position: relative;
+  padding-bottom: 0.22rem;
+}
+
+.luxury-link::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  content: "";
+  background: currentColor;
+  opacity: 0.58;
+  transform-origin: right;
+  transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.luxury-link:hover::after {
+  transform: scaleX(0.34);
+}
+
+.hero-video {
+  object-position: 58% 54%;
+  transform: none;
+}
+
+.hero-poster {
+  background-position: 58% 54%;
+  transform: none;
+}
+
+.hero-video,
+.hero-poster {
+  filter: brightness(1.08) contrast(0.98) saturate(1.03);
+}
+
+@media (min-width: 1280px) {
+  .hero-video {
+    object-position: 60% 54%;
+  }
+
+  .hero-poster {
+    background-position: 60% 54%;
+  }
+}
+
+.hero-overlay {
+  background:
+    linear-gradient(90deg, rgb(36 24 13 / 42%) 0%, rgb(36 24 13 / 13%) 50%, transparent 78%),
+    linear-gradient(0deg, rgb(28 18 10 / 38%) 0%, transparent 47%),
+    linear-gradient(180deg, rgb(28 18 10 / 17%) 0%, transparent 27%);
+}
+
+.hero-art {
+  --hero-base: #f4eadb;
+  --hero-mid: #d5b875;
+  --hero-deep: #60421f;
+  --hero-glow: #fff7d9;
+  --hero-accent: #c8a46a;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 72% 42%, color-mix(in srgb, var(--hero-glow), transparent 22%) 0 6%, transparent 7% 18%, color-mix(in srgb, var(--hero-glow), transparent 86%) 19% 34%, transparent 35%),
+    radial-gradient(ellipse at 66% 48%, color-mix(in srgb, var(--hero-mid), transparent 18%), transparent 34%),
+    linear-gradient(118deg, color-mix(in srgb, var(--hero-base), white 12%) 0%, var(--hero-base) 42%, color-mix(in srgb, var(--hero-deep), var(--hero-base) 18%) 100%);
+}
+
+.hero-art::before,
+.hero-art::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+}
+
+.hero-art::before {
+  top: 18%;
+  right: 12%;
+  width: clamp(13rem, 30vw, 30rem);
+  aspect-ratio: 1;
+  border: clamp(10px, 1.4vw, 18px) double color-mix(in srgb, var(--hero-accent), white 18%);
+  border-radius: 54% 46% 58% 42%;
+  background:
+    radial-gradient(circle at 34% 30%, white 0 5%, color-mix(in srgb, var(--hero-glow), white 20%) 10%, var(--hero-mid) 32%, var(--hero-deep) 78%);
+  box-shadow: 0 26px 52px rgb(0 0 0 / 16%), inset 0 0 0 10px rgb(255 255 255 / 10%);
+  transform: rotate(45deg);
+}
+
+.hero-art::after {
+  right: -8%;
+  bottom: -18%;
+  width: clamp(20rem, 44vw, 45rem);
+  aspect-ratio: 1.8;
+  border: 1px solid color-mix(in srgb, var(--hero-accent), transparent 35%);
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(8deg, transparent 0 34px, rgb(255 255 255 / 8%) 35px, transparent 37px),
+    radial-gradient(ellipse at 50% 50%, rgb(255 255 255 / 12%), transparent 58%);
+  transform: rotate(-14deg);
+}
+
+.hero-art-neutral,
+.hero-art-collections {
+  --hero-base: #efe1cb;
+  --hero-mid: #d6b66d;
+  --hero-deep: #6b421d;
+  --hero-glow: #fff4cc;
+  --hero-accent: #d8bd78;
+}
+
+.hero-art-jewellery {
+  --hero-base: #f6efe4;
+  --hero-mid: #ead18d;
+  --hero-deep: #9a6733;
+  --hero-glow: #fff8dc;
+  --hero-accent: #c8a46a;
+}
+
+.hero-art-bespoke {
+  --hero-base: #eee3d4;
+  --hero-mid: #c8a46a;
+  --hero-deep: #554136;
+  --hero-glow: #fff7de;
+  --hero-accent: #b98245;
+}
+
+.hero-art-appointment,
+.hero-art-contact {
+  --hero-base: #f5eadb;
+  --hero-mid: #d8c09c;
+  --hero-deep: #8d6642;
+  --hero-glow: #fffaf0;
+  --hero-accent: #c8a46a;
+}
+
+.hero-art-journal {
+  --hero-base: #ece3d7;
+  --hero-mid: #c8a46a;
+  --hero-deep: #41584f;
+  --hero-glow: #fff8dc;
+  --hero-accent: #c8a46a;
+}
+
+.hero-art-gemstone-gold {
+  --hero-base: #f3e2bd;
+  --hero-mid: #f0c950;
+  --hero-deep: #7b4a0b;
+  --hero-glow: #fff6b8;
+  --hero-accent: #d9a531;
+}
+
+.hero-art-gemstone-ruby {
+  --hero-base: #f1d9d8;
+  --hero-mid: #c72546;
+  --hero-deep: #8b1029;
+  --hero-glow: #ffe1e6;
+  --hero-accent: #e3c182;
+}
+
+.hero-art-gemstone-emerald {
+  --hero-base: #dfeadb;
+  --hero-mid: #008c69;
+  --hero-deep: #073c31;
+  --hero-glow: #dfffee;
+  --hero-accent: #d8bd78;
+}
+
+.hero-art-gemstone-blue,
+.hero-art-gemstone-star {
+  --hero-base: #dce8f4;
+  --hero-mid: #3d74ad;
+  --hero-deep: #12365f;
+  --hero-glow: #eef7ff;
+  --hero-accent: #d8bd78;
+}
+
+.hero-art-gemstone-padparadscha {
+  --hero-base: #f2d2bf;
+  --hero-mid: #ef8f7e;
+  --hero-deep: #8d3e48;
+  --hero-glow: #ffe7d3;
+  --hero-accent: #d8bd78;
+}
+
+.hero-art-gemstone-catseye {
+  --hero-base: #d8c69b;
+  --hero-mid: #b59a54;
+  --hero-deep: #5d4b21;
+  --hero-glow: #fff2a0;
+  --hero-accent: #d8bd78;
+}
+
+.hero-art-gemstone-alexandrite {
+  --hero-base: #dce8df;
+  --hero-mid: #7d4d83;
+  --hero-deep: #314b4a;
+  --hero-glow: #d9fff1;
+  --hero-accent: #d8bd78;
+}
+
+.hero-art-gemstone-tourmaline {
+  --hero-base: #dfd9c7;
+  --hero-mid: #1f8d78;
+  --hero-deep: #8d5b68;
+  --hero-glow: #e9fff7;
+  --hero-accent: #d8bd78;
+}
+
+.scroll-cue {
+  animation: scroll-cue 1.9s ease-in-out infinite;
+}
+
+@keyframes scroll-cue {
+  0%, 100% { transform: translateY(0); opacity: 0.55; }
+  50% { transform: translateY(5px); opacity: 1; }
+}
+
+.craftsmanship-scene {
+  background:
+    radial-gradient(circle at 69% 42%, rgb(244 213 169 / 22%), transparent 24%),
+    linear-gradient(115deg, #261a13 0%, #5b3e2d 47%, #8d6a50 100%);
+}
+
+.craftsmanship-overlay {
+  background:
+    linear-gradient(90deg, rgb(29 20 14 / 45%) 0%, rgb(29 20 14 / 14%) 46%, transparent 72%),
+    linear-gradient(0deg, rgb(29 20 14 / 21%) 0%, transparent 42%);
+}
+
+.workbench-lines {
+  opacity: 0.62;
+  background:
+    linear-gradient(104deg, transparent 0 57%, rgb(255 255 255 / 9%) 57.2% 57.45%, transparent 57.7%),
+    repeating-linear-gradient(8deg, transparent 0 30px, rgb(255 255 255 / 2.5%) 31px, transparent 32px),
+    repeating-linear-gradient(92deg, transparent 0 76px, rgb(0 0 0 / 4%) 78px, transparent 80px);
+}
+
+.ruby-brooch {
+  position: absolute;
+  top: 14%;
+  right: 8%;
+  width: clamp(18rem, 38vw, 40rem);
+  aspect-ratio: 1;
+  filter: drop-shadow(0 28px 24px rgb(0 0 0 / 34%));
+  transform: rotate(-10deg);
+}
+
+.ruby-brooch span,
+.gem-flower span {
+  --rotation: 0deg;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 35%;
+  height: 17%;
+  border: 3px solid #e3c182;
+  border-radius: 60% 42% 58% 40%;
+  background:
+    radial-gradient(circle at 35% 35%, #ff7a8c 0 4%, transparent 5%),
+    linear-gradient(115deg, #520616, #b90d36 50%, #680719);
+  box-shadow: inset 0 0 0 5px rgb(255 255 255 / 12%);
+  transform: translate(-50%, -50%) rotate(var(--rotation)) translateX(40%);
+  transform-origin: center;
+}
+
+.ruby-brooch span:nth-child(2), .gem-flower span:nth-child(2) { --rotation: 45deg; }
+.ruby-brooch span:nth-child(3), .gem-flower span:nth-child(3) { --rotation: 90deg; }
+.ruby-brooch span:nth-child(4), .gem-flower span:nth-child(4) { --rotation: 135deg; }
+.ruby-brooch span:nth-child(5), .gem-flower span:nth-child(5) { --rotation: 180deg; }
+.ruby-brooch span:nth-child(6), .gem-flower span:nth-child(6) { --rotation: 225deg; }
+.ruby-brooch span:nth-child(7), .gem-flower span:nth-child(7) { --rotation: 270deg; }
+.ruby-brooch span:nth-child(8) { --rotation: 315deg; }
+
+.ruby-brooch i,
+.gem-flower i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18%;
+  aspect-ratio: 1;
+  border: 4px solid #f3dca4;
+  background: radial-gradient(circle at 35% 32%, white, #e6c071 24%, #8c5b18 72%);
+  box-shadow: 0 0 0 10px rgb(255 255 255 / 14%);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.heritage-jewel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 46rem);
+  margin-inline: auto;
+}
+
+.heritage-fallback {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgb(200 164 106 / 12%), transparent 42%),
+    linear-gradient(135deg, #f4eadb, #eadac4);
+}
+
+.heritage-jewel i {
+  width: 48%;
+  height: 3px;
+  background: linear-gradient(90deg, #8e6c2f, #f3d999, #8e6c2f);
+  box-shadow: 0 9px 0 rgb(21 21 21 / 8%);
+}
+
+.heritage-jewel span {
+  z-index: 1;
+  width: clamp(5rem, 11vw, 9rem);
+  aspect-ratio: 1.15;
+  border: 6px double #d5b875;
+  border-radius: 56% 44% 60% 40%;
+  background:
+    radial-gradient(circle at 50% 50%, #e7fff7 0 7%, #087d60 8% 28%, #083d34 29% 52%, #0a0b0b 53%);
+  box-shadow: 0 12px 24px rgb(0 0 0 / 16%);
+  transform: rotate(45deg);
+}
+
+.campaign-water,
+.gift-visual {
+  background:
+    radial-gradient(circle at 42% 56%, rgb(255 255 255 / 12%), transparent 3% 13%, rgb(255 255 255 / 4%) 14%, transparent 27%),
+    linear-gradient(118deg, #4f999a 0%, #1b6467 47%, #0b2f35 100%);
+}
+
+.lily-pad {
+  position: absolute;
+  width: clamp(8rem, 18vw, 18rem);
+  aspect-ratio: 1;
+  border-radius: 50% 50% 45% 55%;
+  background:
+    radial-gradient(circle at 34% 35%, rgb(255 255 255 / 18%), transparent 5%),
+    linear-gradient(130deg, #255e3c, #0c3529 72%);
+  box-shadow: inset -14px -18px 28px rgb(0 0 0 / 24%), 0 14px 36px rgb(0 0 0 / 16%);
+  clip-path: polygon(0 0, 50% 50%, 86% 0, 100% 21%, 100% 100%, 0 100%);
+}
+
+.lily-pad-one { top: -6%; left: -3%; transform: rotate(12deg); }
+.lily-pad-two { right: 5%; bottom: -9%; transform: rotate(186deg) scale(0.8); }
+
+.gem-flower {
+  position: absolute;
+  top: 52%;
+  left: 49%;
+  width: clamp(19rem, 42vw, 39rem);
+  aspect-ratio: 1;
+  filter: drop-shadow(0 28px 22px rgb(0 0 0 / 26%));
+  transform: translate(-50%, -50%) rotate(-8deg);
+}
+
+.gem-flower span {
+  height: 15%;
+  border-color: #e2b55f;
+  background: linear-gradient(115deg, #7d5718, #e0b457 46%, #8b5c17);
+}
+
+.ring-still-life {
+  position: relative;
+  width: clamp(13rem, 26vw, 23rem);
+  aspect-ratio: 1;
+}
+
+.product-fallback {
+  background:
+    radial-gradient(circle at 50% 48%, rgb(200 164 106 / 14%), transparent 33%),
+    linear-gradient(145deg, #fff, #fbf8f2);
+}
+
+.ring-band {
+  position: absolute;
+  inset: 27% 20% 9%;
+  border: clamp(7px, 1vw, 13px) solid #c6933f;
+  border-radius: 50%;
+  box-shadow: inset 4px 3px 0 #f3dc9d, 6px 10px 22px rgb(0 0 0 / 14%);
+}
+
+.ring-stone {
+  position: absolute;
+  top: 11%;
+  left: 50%;
+  width: 32%;
+  aspect-ratio: 1;
+  border: 8px double #e4c776;
+  background: radial-gradient(circle at 34% 28%, white 0 5%, #ffdb77 16%, #c77812 62%, #7c3f04);
+  box-shadow: 0 8px 24px rgb(122 76 13 / 28%);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.ring-halo {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  width: 44%;
+  aspect-ratio: 1;
+  border: 2px dotted #c9a057;
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.model-editorial {
+  background:
+    radial-gradient(circle at 75% 16%, rgb(240 190 115 / 68%), transparent 18%),
+    linear-gradient(145deg, #081918 0%, #1c4b45 44%, #b98245 100%);
+}
+
+.editorial-arch {
+  position: absolute;
+  inset: 8% 11% -12%;
+  border: 1px solid rgb(242 220 172 / 32%);
+  border-bottom: 0;
+  border-radius: 48% 48% 0 0;
+}
+
+.editorial-figure {
+  position: absolute;
+  right: 7%;
+  bottom: -2%;
+  width: 74%;
+  height: 94%;
+}
+
+.figure-head {
+  position: absolute;
+  top: 8%;
+  left: 43%;
+  width: 30%;
+  aspect-ratio: 0.78;
+  border-radius: 48% 52% 46% 54%;
+  background: linear-gradient(130deg, #f0c49c, #9b5d3c 72%);
+  box-shadow: -22px -18px 0 #3a241b;
+  transform: rotate(5deg);
+}
+
+.figure-neck {
+  position: absolute;
+  top: 33%;
+  left: 51%;
+  width: 16%;
+  height: 19%;
+  background: linear-gradient(90deg, #a76946, #e2aa7e);
+}
+
+.figure-dress {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 8%;
+  height: 63%;
+  border-radius: 50% 50% 0 0;
+  background: linear-gradient(118deg, #0b2f56, #175383 48%, #071b31);
+  clip-path: polygon(28% 0, 67% 0, 100% 100%, 0 100%);
+}
+
+.figure-jewel {
+  position: absolute;
+  z-index: 2;
+  top: 29%;
+  left: 42%;
+  width: 7%;
+  aspect-ratio: 1;
+  border: 3px solid #f4d794;
+  background: radial-gradient(circle, white 0 12%, #c8a46a 14% 60%, #785018 62%);
+  transform: rotate(45deg);
+}
+
+.wood-banner {
+  background:
+    radial-gradient(ellipse at 42% 42%, rgb(255 255 255 / 13%), transparent 28%),
+    repeating-linear-gradient(7deg, transparent 0 14px, rgb(73 39 14 / 7%) 15px, transparent 17px),
+    linear-gradient(105deg, #ca9454, #a9682d 56%, #d2a365);
+}
+
+.boutique-scrim {
+  background:
+    radial-gradient(ellipse at 50% 6%, rgb(247 241 232 / 78%) 0%, rgb(247 241 232 / 38%) 32%, transparent 64%),
+    linear-gradient(180deg, rgb(247 241 232 / 18%), transparent 52%);
+}
+
+.wood-inlay {
+  position: absolute;
+  width: clamp(18rem, 38vw, 38rem);
+  aspect-ratio: 1.7;
+  border: 2px solid rgb(76 42 18 / 24%);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 11px rgb(255 255 255 / 4%);
+}
+
+.wood-inlay::before,
+.wood-inlay::after {
+  position: absolute;
+  width: 22%;
+  aspect-ratio: 1;
+  border: 2px solid rgb(76 42 18 / 24%);
+  border-radius: 60% 40%;
+  content: "";
+}
+
+.wood-inlay::before { top: -9%; left: 35%; transform: rotate(42deg); }
+.wood-inlay::after { right: 9%; bottom: -12%; transform: rotate(-24deg); }
+.wood-inlay-one { right: -8%; bottom: -8%; transform: rotate(-18deg); }
+.wood-inlay-two { bottom: 4%; left: -14%; transform: rotate(24deg) scale(0.72); }
+
+.gift-visual {
+  border: 1px solid rgb(255 255 255 / 10%);
+}
+
+.gift-lily-one { top: 8%; left: -3%; transform: rotate(6deg) scale(0.75); }
+.gift-lily-two { right: 5%; bottom: -8%; transform: rotate(170deg); }
+
+.gift-gem {
+  position: absolute;
+  width: clamp(6rem, 11vw, 10rem);
+  aspect-ratio: 1;
+  border: 9px double #e9c477;
+  border-radius: 55% 45% 58% 42%;
+  background: radial-gradient(circle at 35% 30%, #fff9d7 0 6%, #d9a531 15%, #7b4a0b 70%);
+  box-shadow: 0 24px 34px rgb(0 0 0 / 23%);
+  transform: rotate(45deg);
+}
+
+.gift-gem i {
+  position: absolute;
+  inset: 25%;
+  border: 2px solid rgb(255 255 255 / 65%);
+  background: #f9dd91;
+}
+
+.gift-gem-one { top: 25%; right: 25%; }
+.gift-gem-two { right: 41%; bottom: 14%; transform: rotate(12deg) scale(0.78); }
+
+.category-jewel {
+  --gem: var(--emerald);
+  position: relative;
+  width: clamp(12rem, 21vw, 19rem);
+  aspect-ratio: 1;
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.group:hover .category-jewel {
+  transform: translateY(-5px) scale(1.015);
+}
+
+.category-jewel[data-accent="ruby"] { --gem: var(--ruby); }
+.category-jewel[data-accent="gold"] { --gem: #d6a843; }
+.category-jewel[data-accent="teal"] { --gem: #1f6e72; }
+
+.category-chain {
+  position: absolute;
+  inset: 20%;
+  border: 3px solid #c79a4b;
+  border-radius: 50%;
+  box-shadow: inset 3px 3px 0 #f2d995, 4px 7px 12px rgb(0 0 0 / 10%);
+}
+
+.category-setting {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30%;
+  aspect-ratio: 1;
+  border: 8px double #d9b76e;
+  background: var(--gem);
+  box-shadow: 0 9px 16px rgb(0 0 0 / 16%);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.category-gem {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 13%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 32% 28%, white 0 6%, color-mix(in srgb, var(--gem), white 32%) 12%, var(--gem) 67%, #24180d);
+  box-shadow: 0 0 0 3px #f1d995;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.category-spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 8px 2px #e7c77c;
+}
+
+.category-spark-one { top: 34%; left: 38%; }
+.category-spark-two { right: 35%; bottom: 34%; }
+
+.category-jewel[data-form="pendant"] .category-chain {
+  inset: 8% 22% 25%;
+  border-bottom-color: transparent;
+}
+
+.category-jewel[data-form="pendant"] .category-setting { top: 66%; }
+.category-jewel[data-form="pendant"] .category-gem { top: 66%; }
+
+.category-jewel[data-form="bracelet"] .category-chain { inset: 19%; border-width: 9px; }
+.category-jewel[data-form="bracelet"] .category-setting { width: 23%; }
+
+.category-jewel[data-form="earrings"] .category-chain {
+  inset: 28% 54% 28% 12%;
+  border-width: 5px;
+  box-shadow: 7.7rem 0 0 -2px white, 7.7rem 0 0 2px #c79a4b;
+}
+
+.category-jewel[data-form="earrings"] .category-setting {
+  left: 30%;
+  width: 22%;
+  box-shadow: 7.7rem -7.7rem 0 -5px var(--gem), 7.7rem -7.7rem 0 1px #d9b76e;
+}
+
+.category-jewel[data-form="earrings"] .category-gem { left: 30%; width: 10%; }
+.category-jewel[data-form="ring"] .category-chain { inset: 29% 21% 8%; }
+.category-jewel[data-form="ring"] .category-setting,
+.category-jewel[data-form="ring"] .category-gem { top: 27%; }
+
+.category-jewel[data-form="high"] .category-chain {
+  inset: 28% 8%;
+  border-right-color: transparent;
+  border-left-color: transparent;
+  border-radius: 18%;
+  transform: rotate(-8deg);
+}
+
+.category-jewel[data-form="high"] .category-setting { width: 38%; border-radius: 50%; }
+.category-jewel[data-form="bridal"] .category-chain { inset: 34% 17% 11%; border-width: 7px; }
+.category-jewel[data-form="bridal"] .category-setting,
+.category-jewel[data-form="bridal"] .category-gem { top: 31%; }
+
+.journal-visual {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.journal-visual-line {
+  background:
+    linear-gradient(145deg, transparent 0 48%, rgb(200 164 106 / 20%) 48.2% 48.8%, transparent 49%),
+    repeating-linear-gradient(72deg, transparent 0 38px, rgb(21 21 21 / 5%) 39px, transparent 41px),
+    #e9e1d5;
+}
+
+.journal-visual-color {
+  background:
+    radial-gradient(circle at 65% 34%, rgb(255 255 255 / 22%), transparent 12%),
+    linear-gradient(145deg, #84937c, #3b6255 52%, #d0a25a);
+}
+
+.journal-orbit {
+  position: absolute;
+  border: 1px solid rgb(200 164 106 / 62%);
+  border-radius: 50%;
+}
+
+.journal-orbit-one { inset: 19% 18%; transform: rotate(18deg); }
+.journal-orbit-two { inset: 32% 8%; transform: rotate(-28deg); }
+
+.journal-stone {
+  position: absolute;
+  width: clamp(4rem, 8vw, 7rem);
+  aspect-ratio: 1;
+  border: 7px double #e1c377;
+  background: radial-gradient(circle at 35% 30%, white 0 6%, #d0a541 15%, #773a1e 70%);
+  box-shadow: 0 16px 24px rgb(0 0 0 / 16%);
+  transform: rotate(45deg);
+}
+
+.journal-stone-one { top: 19%; left: 18%; }
+.journal-stone-two { top: 50%; left: 46%; background: radial-gradient(circle at 35% 30%, white 0 6%, #0a8d69 15%, #073c31 70%); transform: rotate(12deg) scale(0.78); }
+.journal-stone-three { right: 16%; bottom: 17%; background: radial-gradient(circle at 35% 30%, white 0 6%, #b80f34 15%, #5d0618 70%); transform: rotate(67deg) scale(0.64); }
+
+@media (max-width: 767px) {
+  .hero-video,
+  .hero-poster {
+    object-position: 64% center;
+    background-position: 64% center;
+  }
+
+  .hero-art::before {
+    top: 21%;
+    right: -18%;
+    width: clamp(12rem, 70vw, 24rem);
+    opacity: 0.86;
+  }
+
+  .hero-art::after {
+    right: -40%;
+    bottom: -20%;
+    width: clamp(18rem, 90vw, 30rem);
+  }
+
+  .hero-overlay {
+    background:
+      linear-gradient(90deg, rgb(36 24 13 / 35%) 0%, transparent 88%),
+      linear-gradient(180deg, rgb(28 18 10 / 38%) 0%, rgb(28 18 10 / 7%) 58%, rgb(28 18 10 / 22%) 100%);
+  }
+
+  .ruby-brooch {
+    top: 13%;
+    right: -28%;
+    opacity: 0.88;
+  }
+
+  .craftsmanship-overlay {
+    background:
+      linear-gradient(0deg, rgb(29 20 14 / 52%) 0%, rgb(29 20 14 / 13%) 66%, transparent 100%),
+      linear-gradient(90deg, rgb(29 20 14 / 24%), transparent 78%);
+  }
+
+  .heritage-jewel i { width: 32%; }
+  .gem-flower { left: 56%; width: 25rem; }
+  .gift-gem-one { top: 25%; right: 14%; }
+  .gift-gem-two { right: 43%; bottom: 16%; }
+}
+
+@media (max-width: 374px) {
+  :root {
+    --text-fluid-hero: clamp(2.35rem, 12vw, 3rem);
+    --text-fluid-section: clamp(1.95rem, 10vw, 2.5rem);
+  }
+
+  .heritage-jewel span {
+    width: 4.25rem;
+  }
+
+  .gem-flower {
+    width: 21rem;
+  }
+}
+
+@media (max-height: 650px) and (max-width: 767px) {
+  .scroll-discover {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .hero-video { display: none; }
+}
+
+.heritage-bg-image {
+  object-position: 34% center !important;
+}
+
+@media (min-width: 768px) {
+  .heritage-bg-image {
+    object-position: 42% center !important;
+  }
+}
