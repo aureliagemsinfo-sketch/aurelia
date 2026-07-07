@@ -1,31 +1,45 @@
+"use client";
+
+import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 import { LuxuryButton } from "@/components/shared/LuxuryButton";
+import { LuxuryLoader } from "@/components/shared/LuxuryLoader";
 
 export function HeroVideoSection() {
+  const [isVideoReady, setIsVideoReady] = useState(false);
+  const [hasVideoError, setHasVideoError] = useState(false);
+  const showVideoLoader = !isVideoReady;
+
   return (
     <section
       id="top"
       aria-labelledby="hero-heading"
       className="relative min-h-[100svh] overflow-hidden bg-[#fbf7ef] text-[#171411]"
     >
-      <div
-        aria-hidden="true"
-        className="hero-poster absolute inset-0 bg-cover"
-        style={{ backgroundImage: "url('/images/hero-gem-poster.jpg')" }}
-      />
       <video
         aria-hidden="true"
         autoPlay
-        className="hero-video absolute inset-0 h-full w-full object-cover"
+        className={`hero-video absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out ${
+          hasVideoError ? "opacity-0" : "opacity-100"
+        }`}
         loop
         muted
+        onCanPlay={() => setIsVideoReady(true)}
+        onError={() => setHasVideoError(true)}
+        onLoadedData={() => setIsVideoReady(true)}
         playsInline
-        poster="/images/hero-gem-poster.jpg"
         preload="metadata"
       >
         <source src="/videos/hero-gem-desert.mp4" type="video/mp4" />
       </video>
+      {showVideoLoader ? (
+        <LuxuryLoader
+          className="z-[1] border-0 bg-[linear-gradient(135deg,rgb(255_253_248_/_0.58),rgb(246_236_221_/_0.38),rgb(255_250_241_/_0.44))] backdrop-blur-[1px] transition-opacity duration-500"
+          label="Loading hero video"
+          variant="video"
+        />
+      ) : null}
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-gradient-to-r from-[#fbf7ef]/45 via-[#fbf7ef]/20 to-transparent"

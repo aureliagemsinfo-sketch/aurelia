@@ -284,6 +284,47 @@ select.form-control:invalid {
   transform: scaleX(0.34);
 }
 
+.luxury-loader {
+  background-size: 220% 100%;
+}
+
+.luxury-loader__sheen,
+.luxury-loader__aura {
+  position: absolute;
+  pointer-events: none;
+  content: "";
+}
+
+.luxury-loader__sheen {
+  inset: 0;
+  background:
+    linear-gradient(108deg, transparent 0 32%, rgb(255 255 255 / 54%) 43%, rgb(200 164 106 / 20%) 50%, transparent 62% 100%);
+  transform: translateX(-115%);
+  animation: luxury-loader-sheen 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+.luxury-loader__aura {
+  inset: 18%;
+  border: 1px solid rgb(200 164 106 / 18%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgb(255 255 255 / 46%), transparent 58%),
+    radial-gradient(circle at 50% 50%, rgb(200 164 106 / 14%), transparent 62%);
+  opacity: 0.74;
+  transform: scale(0.88);
+  animation: luxury-loader-aura 2.4s ease-in-out infinite;
+}
+
+@keyframes luxury-loader-sheen {
+  0% { transform: translateX(-115%); }
+  54%, 100% { transform: translateX(115%); }
+}
+
+@keyframes luxury-loader-aura {
+  0%, 100% { opacity: 0.52; transform: scale(0.86); }
+  50% { opacity: 0.78; transform: scale(1); }
+}
+
 .hero-video {
   object-position: 58% 54%;
   transform: none;
