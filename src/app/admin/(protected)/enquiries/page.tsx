@@ -1,3 +1,4 @@
+import { AdminInlineForm, AdminSelect, AdminSubmitButton } from "@/components/admin/AdminControls";
 import {
   updateContactSubmissionStatusAction,
   updateProductEnquiryStatusAction,
@@ -28,26 +29,29 @@ function StatusForm({
   status: string;
 }) {
   return (
-    <form action={action} className="flex gap-2">
+    <AdminInlineForm action={action}>
       <input name="id" type="hidden" value={id} />
-      <select className="border border-charcoal/10 bg-white px-3 py-2 text-sm" defaultValue={status} name="status">
+      <AdminSelect defaultValue={status} name="status">
         {enquiryStatuses.map((nextStatus) => (
           <option key={nextStatus} value={nextStatus}>
             {nextStatus}
           </option>
         ))}
-      </select>
-      <button className="border border-charcoal/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-charcoal/60" type="submit">
-        Save
-      </button>
-    </form>
+      </AdminSelect>
+      <AdminSubmitButton>Save</AdminSubmitButton>
+    </AdminInlineForm>
   );
 }
 
-export default async function AdminEnquiriesPage() {
-  const [itemEnquiries, contactSubmissions] = await Promise.all([
+export default async function AdminEnquiriesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string }>;
+}) {
+  const [itemEnquiries, contactSubmissions, query] = await Promise.all([
     listAdminProductEnquiries(),
     listAdminContactSubmissions(),
+    searchParams,
   ]);
 
   return (
@@ -60,6 +64,17 @@ export default async function AdminEnquiriesPage() {
           outside the CMS for now; use status to track progress.
         </p>
       </header>
+
+      {query.status === "updated" ? (
+        <p className="mt-6 border border-champagne/24 bg-porcelain/74 px-4 py-3 text-sm text-charcoal/66">
+          Enquiry status saved.
+        </p>
+      ) : null}
+      {query.status === "error" ? (
+        <p className="mt-6 border border-ruby/20 bg-porcelain/74 px-4 py-3 text-sm text-charcoal/66">
+          Enquiry status could not be saved. Check the selected status and try again.
+        </p>
+      ) : null}
 
       <section className="mt-9 overflow-hidden border border-charcoal/10 bg-porcelain/64">
         <div className="border-b border-charcoal/10 px-4 py-4">

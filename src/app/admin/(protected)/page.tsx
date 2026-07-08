@@ -1,27 +1,35 @@
+import Link from "next/link";
+
 const overviewCards = [
   {
+    href: "/admin/gemstones",
     label: "Gemstones",
-    text: "Prepare gemstone records, origins, story notes, and published status in the next CRUD phase.",
+    text: "Manage catalogue records, origins, images, publication status, featured placement, and display order.",
   },
   {
+    href: "/admin/collections",
     label: "Collections",
-    text: "Manage maison collection stories, imagery, and featured jewellery relationships later.",
+    text: "Manage maison collection stories, related gemstones, featured imagery, publication status, and ordering.",
   },
   {
+    href: "/admin/products",
     label: "Jewellery",
-    text: "Product creation, image ordering, gemstone links, and related pieces will arrive next.",
+    text: "Manage jewellery products, image records, collection assignment, gemstone links, status, and order.",
   },
   {
+    href: "/admin/enquiries",
     label: "Enquiries",
-    text: "Contact and product enquiry triage will be wired after the content CRUD screens.",
+    text: "Review gemstone, jewellery, collection, and general contact enquiries, then track response progress.",
   },
   {
+    href: "/admin/appointments",
     label: "Appointments",
-    text: "Appointment requests will use this protected area once the workflow is implemented.",
+    text: "Confirm, complete, cancel, or archive private viewing requests from the appointment form.",
   },
   {
+    href: "/admin/newsletter",
     label: "Newsletter",
-    text: "Subscriber review and export controls are planned for a later admin phase.",
+    text: "Review subscriber records and manage active subscription state.",
   },
 ];
 
@@ -34,18 +42,24 @@ export default function AdminDashboardPage() {
           Operations overview
         </h1>
         <p className="mt-5 max-w-2xl text-sm leading-7 text-charcoal/64">
-          The protected admin foundation is active. This shell is intentionally minimal until the
-          gemstone, collection, and jewellery CRUD phases begin.
+          Use this protected workspace to maintain the Aurelia Gems catalogue, review client
+          messages, and keep operational records current.
         </p>
       </section>
 
       <section className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {overviewCards.map((card) => (
-          <article className="border border-charcoal/10 bg-porcelain/74 p-5 shadow-[0_18px_50px_rgb(23_20_17_/_0.035)]" key={card.label}>
-            <p className="text-[0.62rem] uppercase tracking-[0.22em] text-charcoal/45">Coming Next</p>
-            <h2 className="mt-4 font-serif text-2xl font-normal">{card.label}</h2>
+          <Link
+            className="group border border-charcoal/10 bg-porcelain/74 p-5 shadow-[0_18px_50px_rgb(23_20_17_/_0.035)] transition hover:border-champagne/42 hover:bg-ivory"
+            href={card.href}
+            key={card.label}
+          >
+            <p className="text-[0.62rem] uppercase tracking-[0.22em] text-charcoal/45">Manage</p>
+            <h2 className="mt-4 font-serif text-2xl font-normal transition group-hover:text-champagne">
+              {card.label}
+            </h2>
             <p className="mt-4 text-sm leading-7 text-charcoal/62">{card.text}</p>
-          </article>
+          </Link>
         ))}
       </section>
     </div>

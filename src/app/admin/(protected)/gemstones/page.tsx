@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AdminInlineForm, AdminNumberInput, AdminSubmitButton } from "@/components/admin/AdminControls";
 import {
   toggleGemstoneFeaturedAction,
   toggleGemstonePublishedAction,
@@ -18,7 +19,7 @@ function formatDate(value: Date) {
 export default async function AdminGemstonesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ created?: string; deleted?: string }>;
+  searchParams: Promise<{ created?: string; deleted?: string; updated?: string }>;
 }) {
   const [gemstones, query] = await Promise.all([listAdminGemstones(), searchParams]);
 
@@ -49,6 +50,16 @@ export default async function AdminGemstonesPage({
       {query.created ? (
         <p className="mt-6 border border-charcoal/10 bg-porcelain/74 px-4 py-3 text-sm text-charcoal/66">
           Gemstone created.
+        </p>
+      ) : null}
+      {query.updated && query.updated !== "error" ? (
+        <p className="mt-6 border border-champagne/24 bg-porcelain/74 px-4 py-3 text-sm text-charcoal/66">
+          Gemstone {query.updated === "order" ? "display order" : query.updated} saved.
+        </p>
+      ) : null}
+      {query.updated === "error" ? (
+        <p className="mt-6 border border-ruby/20 bg-porcelain/74 px-4 py-3 text-sm text-charcoal/66">
+          Gemstone update could not be saved. Check the row values and try again.
         </p>
       ) : null}
 
@@ -87,27 +98,25 @@ export default async function AdminGemstonesPage({
                 </div>
                 <p className="text-sm leading-6 text-charcoal/64">{gemstone.originDisplay ?? gemstone.originCountry ?? gemstone.origin ?? "Not set"}</p>
                 <p className="text-sm leading-6 text-charcoal/64">{gemstone.color ?? "Not set"}</p>
-                <form action={toggleGemstoneFeaturedAction}>
+                <AdminInlineForm action={toggleGemstoneFeaturedAction}>
                   <input name="id" type="hidden" value={gemstone.id} />
                   <input name="next" type="hidden" value={String(!gemstone.isFeatured)} />
-                  <button className="border border-charcoal/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-charcoal/60" type="submit">
+                  <AdminSubmitButton>
                     {gemstone.isFeatured ? "Featured" : "Set Featured"}
-                  </button>
-                </form>
-                <form action={toggleGemstonePublishedAction}>
+                  </AdminSubmitButton>
+                </AdminInlineForm>
+                <AdminInlineForm action={toggleGemstonePublishedAction}>
                   <input name="id" type="hidden" value={gemstone.id} />
                   <input name="next" type="hidden" value={String(!gemstone.isPublished)} />
-                  <button className="border border-charcoal/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-charcoal/60" type="submit">
+                  <AdminSubmitButton>
                     {gemstone.isPublished ? "Published" : "Draft"}
-                  </button>
-                </form>
-                <form action={updateGemstoneDisplayOrderAction} className="flex gap-2">
+                  </AdminSubmitButton>
+                </AdminInlineForm>
+                <AdminInlineForm action={updateGemstoneDisplayOrderAction}>
                   <input name="id" type="hidden" value={gemstone.id} />
-                  <input className="w-20 border border-charcoal/10 bg-white px-3 py-2 text-sm" min={0} name="sortOrder" type="number" defaultValue={gemstone.sortOrder} />
-                  <button className="border border-charcoal/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-charcoal/60" type="submit">
-                    Save
-                  </button>
-                </form>
+                  <AdminNumberInput min={0} name="sortOrder" defaultValue={gemstone.sortOrder} />
+                  <AdminSubmitButton>Save</AdminSubmitButton>
+                </AdminInlineForm>
                 <p className="text-sm text-charcoal/54">{formatDate(gemstone.updatedAt)}</p>
               </article>
             );
