@@ -66,4 +66,7 @@ export const footerLinks = [
   { label: "Contact Us", href: "/contact" },
 ] as const;
 
-export const socialLinks = ["Instagram", "Facebook", "YouTube", "Pinterest", "LinkedIn"] as const;
+export const socialLinks = [
+  { label: "Instagram", href: "https://www.instagram.com/aure_liagems/" },
+  { label: "Facebook", href: "https://web.facebook.com/profile.php?id=61591784850008" },
+] as const;
