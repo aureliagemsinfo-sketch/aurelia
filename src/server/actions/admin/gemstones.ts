@@ -236,7 +236,7 @@ export async function updateGemstoneDisplayOrderAction(formData: FormData) {
   await requireAdmin();
   const id = cleanOptional(formData.get("id"));
   const sortOrder = Number(formData.get("sortOrder") ?? 0);
-  if (!id || !Number.isInteger(sortOrder) || sortOrder < 0) redirect("/admin/gemstones?updated=error");
+  if (!id || !Number.isInteger(sortOrder) || sortOrder < 1) redirect("/admin/gemstones?updated=error");
 
   await updateGemstoneDisplayOrder(id, sortOrder);
   revalidatePath("/admin/gemstones");

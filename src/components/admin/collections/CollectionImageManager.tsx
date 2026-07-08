@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 
+import { AdminDropdown } from "@/components/admin/AdminControls";
 import {
   attachCollectionImageAction,
   createCollectionImageUploadAction,
@@ -12,6 +13,7 @@ import {
 import type { AdminCollection, CollectionImageRole } from "@/server/repositories/collections.repo";
 
 const imageRoles: CollectionImageRole[] = ["primary", "gallery", "hero"];
+const imageRoleOptions = imageRoles.map((role) => ({ label: role, value: role }));
 const acceptedTypes = ["image/jpeg", "image/png", "image/webp"];
 const maxBytes = 8 * 1024 * 1024;
 
@@ -132,20 +134,14 @@ export function CollectionImageManager({
           <label className="mb-2 block text-[0.65rem] uppercase tracking-[0.18em] text-charcoal/55" htmlFor="collection-image-role">
             Role
           </label>
-          <select
-            className="form-control text-[0.9rem]"
+          <AdminDropdown
+            className="min-w-40"
+            defaultValue={imageRole}
             disabled={!isUploadConfigured}
-            id="collection-image-role"
             name="imageRole"
-            onChange={(event) => setImageRole(event.target.value as CollectionImageRole)}
-            value={imageRole}
-          >
-            {imageRoles.map((role) => (
-              <option key={role} value={role}>
-                {role}
-              </option>
-            ))}
-          </select>
+            onValueChange={(value) => setImageRole(value as CollectionImageRole)}
+            options={imageRoleOptions}
+          />
         </div>
         <button
           className="border border-charcoal px-5 py-3 text-[0.7rem] uppercase tracking-[0.22em] text-charcoal transition hover:bg-charcoal hover:text-ivory disabled:opacity-50 lg:self-end"

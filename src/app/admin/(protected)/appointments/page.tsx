@@ -1,4 +1,4 @@
-import { AdminInlineForm, AdminSelect, AdminSubmitButton } from "@/components/admin/AdminControls";
+import { AdminDropdown, AdminInlineForm, AdminSubmitButton } from "@/components/admin/AdminControls";
 import { updateAppointmentRequestStatusAction } from "@/server/actions/admin/submissions";
 import {
   listAdminAppointmentRequests,
@@ -6,6 +6,7 @@ import {
 } from "@/server/repositories/submissions.repo";
 
 const appointmentStatuses: AppointmentStatus[] = ["new", "confirmed", "completed", "cancelled", "archived"];
+const appointmentStatusOptions = appointmentStatuses.map((status) => ({ label: status, value: status }));
 
 function formatDate(value: Date) {
   return new Intl.DateTimeFormat("en", {
@@ -80,13 +81,7 @@ export default async function AdminAppointmentsPage({
                 <p className="text-sm leading-6 text-charcoal/64">{request.message ?? "No message"}</p>
                 <AdminInlineForm action={updateAppointmentRequestStatusAction}>
                   <input name="id" type="hidden" value={request.id} />
-                  <AdminSelect defaultValue={request.status} name="status">
-                    {appointmentStatuses.map((status) => (
-                      <option key={status} value={status}>
-                        {status}
-                      </option>
-                    ))}
-                  </AdminSelect>
+                  <AdminDropdown defaultValue={request.status} name="status" options={appointmentStatusOptions} />
                   <AdminSubmitButton>Save</AdminSubmitButton>
                 </AdminInlineForm>
                 <p className="text-sm text-charcoal/54">{formatDate(request.createdAt)}</p>

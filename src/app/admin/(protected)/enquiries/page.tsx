@@ -1,4 +1,4 @@
-import { AdminInlineForm, AdminSelect, AdminSubmitButton } from "@/components/admin/AdminControls";
+import { AdminDropdown, AdminInlineForm, AdminSubmitButton } from "@/components/admin/AdminControls";
 import {
   updateContactSubmissionStatusAction,
   updateProductEnquiryStatusAction,
@@ -10,6 +10,7 @@ import {
 } from "@/server/repositories/submissions.repo";
 
 const enquiryStatuses: EnquiryStatus[] = ["new", "read", "replied", "archived"];
+const enquiryStatusOptions = enquiryStatuses.map((status) => ({ label: status, value: status }));
 
 function formatDate(value: Date) {
   return new Intl.DateTimeFormat("en", {
@@ -31,13 +32,7 @@ function StatusForm({
   return (
     <AdminInlineForm action={action}>
       <input name="id" type="hidden" value={id} />
-      <AdminSelect defaultValue={status} name="status">
-        {enquiryStatuses.map((nextStatus) => (
-          <option key={nextStatus} value={nextStatus}>
-            {nextStatus}
-          </option>
-        ))}
-      </AdminSelect>
+      <AdminDropdown defaultValue={status} name="status" options={enquiryStatusOptions} />
       <AdminSubmitButton>Save</AdminSubmitButton>
     </AdminInlineForm>
   );

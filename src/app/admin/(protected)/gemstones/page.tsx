@@ -114,7 +114,7 @@ export default async function AdminGemstonesPage({
                 </AdminInlineForm>
                 <AdminInlineForm action={updateGemstoneDisplayOrderAction}>
                   <input name="id" type="hidden" value={gemstone.id} />
-                  <AdminNumberInput min={0} name="sortOrder" defaultValue={gemstone.sortOrder} />
+                  <AdminNumberInput min={1} name="sortOrder" defaultValue={gemstone.sortOrder} />
                   <AdminSubmitButton>Save</AdminSubmitButton>
                 </AdminInlineForm>
                 <p className="text-sm text-charcoal/54">{formatDate(gemstone.updatedAt)}</p>

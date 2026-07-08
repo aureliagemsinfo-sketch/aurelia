@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 
+import { AdminDropdown } from "@/components/admin/AdminControls";
 import type { ProductFormState } from "@/server/actions/admin/products";
 import type { AdminProduct, CollectionOption, ProductOption } from "@/server/repositories/products.repo";
 
@@ -89,6 +90,10 @@ function TextAreaField({
 export function ProductForm({ action, collections, mode, product, products }: ProductFormProps) {
   const [state, formAction, pending] = useActionState(action, initialState);
   const errors = state.fieldErrors ?? {};
+  const collectionOptions = [
+    { label: "No collection", value: "" },
+    ...collections.map((collection) => ({ label: collection.name, value: collection.id })),
+  ];
   const relatedProductOrder = new Map(product?.relatedProducts.map((item) => [item.id, item.sortOrder]) ?? []);
   const gemstoneRows = [
     ...(product?.gemstones ?? []),
@@ -121,17 +126,15 @@ export function ProductForm({ action, collections, mode, product, products }: Pr
         <TextField errors={errors.slug} label="Slug" name="slug" required value={product?.slug} />
         <TextField errors={errors.category} label="Category" name="category" required value={product?.category} />
         <div>
-          <label className="mb-2 block text-[0.65rem] uppercase tracking-[0.18em] text-charcoal/55" htmlFor="collectionId">
+          <label className="mb-2 block text-[0.65rem] uppercase tracking-[0.18em] text-charcoal/55">
             Collection
           </label>
-          <select className="form-control text-[0.95rem]" defaultValue={product?.collectionId ?? ""} id="collectionId" name="collectionId">
-            <option value="">No collection</option>
-            {collections.map((collection) => (
-              <option key={collection.id} value={collection.id}>
-                {collection.name}
-              </option>
-            ))}
-          </select>
+          <AdminDropdown
+            className="min-w-full"
+            defaultValue={product?.collectionId ?? ""}
+            name="collectionId"
+            options={collectionOptions}
+          />
         </div>
         <TextField errors={errors.price} label="Price" name="price" type="number" value={product?.price} />
         <TextField label="Currency" name="currency" value={product?.currency} />
