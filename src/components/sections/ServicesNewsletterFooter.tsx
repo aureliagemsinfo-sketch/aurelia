@@ -1,6 +1,6 @@
 import { LuxuryButton } from "@/components/shared/LuxuryButton";
 import { NewsletterForm } from "@/components/shared/NewsletterForm";
-import { footerLinks, services, socialLinks } from "@/data/home";
+import { footerLinks, services } from "@/data/home";
 import Link from "next/link";
 
 export function ServicesNewsletterFooter() {
@@ -52,22 +52,6 @@ export function ServicesNewsletterFooter() {
                 <Link className="text-[0.6rem] uppercase tracking-[0.2em] transition-opacity hover:opacity-50" href={link.href}>
                   {link.label}
                 </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <nav aria-label="Social links" className="mt-7">
-          <ul className="flex flex-wrap justify-center gap-x-6 gap-y-3">
-            {socialLinks.map((link) => (
-              <li key={link.label}>
-                <a
-                  className="text-[0.58rem] uppercase tracking-[0.18em] text-charcoal/58 transition-opacity hover:opacity-50"
-                  href={link.href}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  {link.label}
-                </a>
               </li>
             ))}
           </ul>

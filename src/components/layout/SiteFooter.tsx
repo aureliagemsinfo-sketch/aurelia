@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-import { socialLinks } from "@/data/home";
-
 const links = [
   { label: "Home", href: "/" },
   { label: "Gemstones", href: "/gemstones" },
@@ -24,22 +22,6 @@ export function SiteFooter() {
               <Link className="text-[0.6rem] uppercase tracking-[0.2em] transition-opacity hover:opacity-50" href={link.href}>
                 {link.label}
               </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <nav aria-label="Social links" className="mt-7">
-        <ul className="flex flex-wrap justify-center gap-x-6 gap-y-3">
-          {socialLinks.map((link) => (
-            <li key={link.label}>
-              <a
-                className="text-[0.58rem] uppercase tracking-[0.18em] text-charcoal/58 transition-opacity hover:opacity-50"
-                href={link.href}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {link.label}
-              </a>
             </li>
           ))}
         </ul>
