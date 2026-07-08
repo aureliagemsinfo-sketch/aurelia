@@ -139,8 +139,9 @@ async function main() {
     import("../src/server/repositories/gemstones.repo"),
   ]);
 
+  const beforeRows = await repo.listAdminGemstones();
   let inserted = 0;
-  let completed = 0;
+  let updated = 0;
   let imageRecordsInserted = 0;
   let imageRecordsSkipped = 0;
 
@@ -152,7 +153,7 @@ async function main() {
 
     if (existing) {
       await repo.updateGemstone(existing.id, mergedInput(gemstone, existing));
-      completed += 1;
+      updated += 1;
     } else {
       inserted += 1;
     }
@@ -182,13 +183,21 @@ async function main() {
     }
   }
 
+  await repo.normalizeGemstoneDisplayOrders();
   const finalRows = await repo.listAdminGemstones();
+  const finalSlugs = new Set(finalRows.map((gemstone) => gemstone.slug));
+  const missingSlugs = staticGemstones
+    .map((gemstone) => gemstone.slug)
+    .filter((slug) => !finalSlugs.has(slug));
+
+  console.log(`Admin gemstone records before sync: ${beforeRows.length}`);
   console.log(`Static gemstone records: ${staticGemstones.length}`);
   console.log(`Missing gemstones inserted: ${inserted}`);
-  console.log(`Existing gemstones completed without overwriting filled fields: ${completed}`);
+  console.log(`Existing gemstones updated with missing static fields: ${updated}`);
   console.log(`Image records inserted: ${imageRecordsInserted}`);
   console.log(`Existing image records skipped: ${imageRecordsSkipped}`);
   console.log(`Admin gemstone records after sync: ${finalRows.length}`);
+  console.log(`Missing static slugs after sync: ${missingSlugs.length ? missingSlugs.join(", ") : "none"}`);
 }
 
 main().catch((error) => {

@@ -171,10 +171,38 @@ export async function toggleGemstoneFeatured(id: string, isFeatured: boolean) {
 }
 
 export async function updateGemstoneDisplayOrder(id: string, sortOrder: number) {
-  await db
-    .update(gemstones)
-    .set({ sortOrder, updatedAt: new Date() })
-    .where(eq(gemstones.id, id));
+  const rows = await db
+    .select()
+    .from(gemstones)
+    .orderBy(asc(gemstones.sortOrder), asc(gemstones.createdAt), asc(gemstones.name), asc(gemstones.id));
+  const target = rows.find((gemstone) => gemstone.id === id);
+  if (!target) return;
+
+  const reordered = rows.filter((gemstone) => gemstone.id !== id);
+  const targetIndex = Math.max(0, Math.min(reordered.length, sortOrder <= 0 ? 0 : sortOrder - 1));
+  reordered.splice(targetIndex, 0, target);
+  await normalizeGemstoneDisplayOrders(reordered);
+}
+
+export async function normalizeGemstoneDisplayOrders(
+  orderedRows?: Array<Pick<typeof gemstones.$inferSelect, "id" | "sortOrder">>,
+) {
+  const rows =
+    orderedRows ??
+    (await db
+      .select()
+      .from(gemstones)
+      .orderBy(asc(gemstones.sortOrder), asc(gemstones.createdAt), asc(gemstones.name), asc(gemstones.id)));
+  const now = new Date();
+
+  for (const [index, gemstone] of rows.entries()) {
+    const nextSortOrder = index + 1;
+    if (gemstone.sortOrder === nextSortOrder) continue;
+    await db
+      .update(gemstones)
+      .set({ sortOrder: nextSortOrder, updatedAt: now })
+      .where(eq(gemstones.id, gemstone.id));
+  }
 }
 
 export async function attachGemstoneImage(gemstoneId: string, input: GemstoneImageInput) {

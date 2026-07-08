@@ -1,6 +1,6 @@
 import "server-only";
 
-import { and, asc, eq, inArray } from "drizzle-orm";
+import { asc, eq, inArray } from "drizzle-orm";
 
 import { heroImages, type HeroImageConfig, type ProductionImage } from "@/data/assets";
 import {
@@ -153,11 +153,10 @@ function mapGemstone(row: DbGemstone): Gemstone {
   };
 }
 
-async function listPublishedDbGemstones() {
+async function listDbGemstones() {
   const rows = await db
     .select()
     .from(gemstones)
-    .where(eq(gemstones.isPublished, true))
     .orderBy(asc(gemstones.sortOrder), asc(gemstones.name));
 
   return attachImages(rows);
@@ -167,15 +166,19 @@ function sortPublicGemstones(items: Gemstone[]) {
   return [...items].sort((a, b) => a.displayOrder - b.displayOrder || a.name.localeCompare(b.name));
 }
 
-function mergeGemstonesWithStaticFallback(dbGemstones: Gemstone[]) {
+function mergeGemstonesWithStaticFallback(dbRows: DbGemstone[]) {
   const merged = new Map<string, Gemstone>();
 
   for (const gemstone of staticGemstones) {
     merged.set(gemstone.slug, gemstone);
   }
 
-  for (const gemstone of dbGemstones) {
-    merged.set(gemstone.slug, gemstone);
+  for (const row of dbRows) {
+    if (row.isPublished) {
+      merged.set(row.slug, mapGemstone(row));
+    } else {
+      merged.delete(row.slug);
+    }
   }
 
   return sortPublicGemstones([...merged.values()]);
@@ -183,8 +186,8 @@ function mergeGemstonesWithStaticFallback(dbGemstones: Gemstone[]) {
 
 export async function listPublicGemstonesWithFallback() {
   try {
-    const rows = await listPublishedDbGemstones();
-    return mergeGemstonesWithStaticFallback(rows.map(mapGemstone));
+    const rows = await listDbGemstones();
+    return mergeGemstonesWithStaticFallback(rows);
   } catch {
     return sortPublicGemstones([...staticGemstones]);
   }
@@ -192,8 +195,8 @@ export async function listPublicGemstonesWithFallback() {
 
 export async function listPublicFeaturedGemstonesWithFallback(limit = 6) {
   try {
-    const rows = await listPublishedDbGemstones();
-    const featured = mergeGemstonesWithStaticFallback(rows.map(mapGemstone))
+    const rows = await listDbGemstones();
+    const featured = mergeGemstonesWithStaticFallback(rows)
       .filter((gemstone) => gemstone.isFeatured)
       .slice(0, limit);
     if (featured.length) return featured;
@@ -209,10 +212,10 @@ export async function getPublicGemstoneBySlugWithFallback(slug: string) {
     const rows = await db
       .select()
       .from(gemstones)
-      .where(and(eq(gemstones.slug, slug), eq(gemstones.isPublished, true)))
+      .where(eq(gemstones.slug, slug))
       .limit(1);
     const [gemstone] = await attachImages(rows);
-    if (gemstone) return mapGemstone(gemstone);
+    if (gemstone) return gemstone.isPublished ? mapGemstone(gemstone) : null;
   } catch {
     return getStaticGemstone(slug) ?? null;
   }
@@ -223,10 +226,17 @@ export async function getPublicGemstoneBySlugWithFallback(slug: string) {
 export async function listPublicGemstoneSlugs() {
   try {
     const rows = await db
-      .select({ slug: gemstones.slug })
-      .from(gemstones)
-      .where(eq(gemstones.isPublished, true));
-    return [...new Set([...staticGemstones.map((gemstone) => gemstone.slug), ...rows.map((row) => row.slug)])];
+      .select({ isPublished: gemstones.isPublished, slug: gemstones.slug })
+      .from(gemstones);
+    const slugs = new Set(staticGemstones.map((gemstone) => gemstone.slug));
+    for (const row of rows) {
+      if (row.isPublished) {
+        slugs.add(row.slug);
+      } else {
+        slugs.delete(row.slug);
+      }
+    }
+    return [...slugs];
   } catch {
     return staticGemstones.map((gemstone) => gemstone.slug);
   }

@@ -16,6 +16,7 @@
     "db:seed:gemstones": "tsx scripts/seed-gemstones.ts",
     "db:seed:products": "tsx scripts/seed-products.ts",
     "admin:sync-gemstones": "tsx scripts/sync-gemstones-from-static.ts",
+    "admin:verify-gemstones": "tsx scripts/verify-gemstone-cms.ts",
     "admin:bootstrap": "tsx scripts/bootstrap-admin.ts"
   },
   "dependencies": {
