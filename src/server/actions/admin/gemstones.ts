@@ -213,31 +213,34 @@ export async function deleteGemstoneAction(formData: FormData) {
 export async function toggleGemstonePublishedAction(formData: FormData) {
   await requireAdmin();
   const id = cleanOptional(formData.get("id"));
-  if (!id) return;
+  if (!id) redirect("/admin/gemstones?updated=error");
 
   await toggleGemstonePublished(id, formData.get("next") === "true");
   revalidatePath("/admin/gemstones");
   revalidatePath(`/admin/gemstones/${id}`);
+  redirect("/admin/gemstones?updated=status");
 }
 
 export async function toggleGemstoneFeaturedAction(formData: FormData) {
   await requireAdmin();
   const id = cleanOptional(formData.get("id"));
-  if (!id) return;
+  if (!id) redirect("/admin/gemstones?updated=error");
 
   await toggleGemstoneFeatured(id, formData.get("next") === "true");
   revalidatePath("/admin/gemstones");
   revalidatePath(`/admin/gemstones/${id}`);
+  redirect("/admin/gemstones?updated=featured");
 }
 
 export async function updateGemstoneDisplayOrderAction(formData: FormData) {
   await requireAdmin();
   const id = cleanOptional(formData.get("id"));
   const sortOrder = Number(formData.get("sortOrder") ?? 0);
-  if (!id || !Number.isInteger(sortOrder) || sortOrder < 0) return;
+  if (!id || !Number.isInteger(sortOrder) || sortOrder < 0) redirect("/admin/gemstones?updated=error");
 
   await updateGemstoneDisplayOrder(id, sortOrder);
   revalidatePath("/admin/gemstones");
+  redirect("/admin/gemstones?updated=order");
 }
 
 export async function createGemstoneImageUploadAction(input: unknown) {

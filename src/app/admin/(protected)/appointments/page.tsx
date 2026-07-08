@@ -1,3 +1,4 @@
+import { AdminInlineForm, AdminSelect, AdminSubmitButton } from "@/components/admin/AdminControls";
 import { updateAppointmentRequestStatusAction } from "@/server/actions/admin/submissions";
 import {
   listAdminAppointmentRequests,
@@ -23,8 +24,12 @@ function formatPreferredDate(value: Date | null) {
   }).format(value);
 }
 
-export default async function AdminAppointmentsPage() {
-  const requests = await listAdminAppointmentRequests();
+export default async function AdminAppointmentsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string }>;
+}) {
+  const [requests, query] = await Promise.all([listAdminAppointmentRequests(), searchParams]);
 
   return (
     <div>
@@ -36,6 +41,17 @@ export default async function AdminAppointmentsPage() {
           and client replies remain outside the CMS for this phase.
         </p>
       </header>
+
+      {query.status === "updated" ? (
+        <p className="mt-6 border border-champagne/24 bg-porcelain/74 px-4 py-3 text-sm text-charcoal/66">
+          Appointment status saved.
+        </p>
+      ) : null}
+      {query.status === "error" ? (
+        <p className="mt-6 border border-ruby/20 bg-porcelain/74 px-4 py-3 text-sm text-charcoal/66">
+          Appointment status could not be saved. Check the selected status and try again.
+        </p>
+      ) : null}
 
       <section className="mt-9 overflow-hidden border border-charcoal/10 bg-porcelain/64">
         <div className="hidden grid-cols-[1fr_0.9fr_0.9fr_0.8fr_0.9fr_0.8fr] gap-4 border-b border-charcoal/10 px-4 py-3 text-[0.62rem] uppercase tracking-[0.18em] text-charcoal/45 xl:grid">
@@ -62,19 +78,17 @@ export default async function AdminAppointmentsPage() {
                   {request.preferredTime ? <p>{request.preferredTime}</p> : null}
                 </div>
                 <p className="text-sm leading-6 text-charcoal/64">{request.message ?? "No message"}</p>
-                <form action={updateAppointmentRequestStatusAction} className="flex gap-2">
+                <AdminInlineForm action={updateAppointmentRequestStatusAction}>
                   <input name="id" type="hidden" value={request.id} />
-                  <select className="border border-charcoal/10 bg-white px-3 py-2 text-sm" defaultValue={request.status} name="status">
+                  <AdminSelect defaultValue={request.status} name="status">
                     {appointmentStatuses.map((status) => (
                       <option key={status} value={status}>
                         {status}
                       </option>
                     ))}
-                  </select>
-                  <button className="border border-charcoal/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-charcoal/60" type="submit">
-                    Save
-                  </button>
-                </form>
+                  </AdminSelect>
+                  <AdminSubmitButton>Save</AdminSubmitButton>
+                </AdminInlineForm>
                 <p className="text-sm text-charcoal/54">{formatDate(request.createdAt)}</p>
               </article>
             ))

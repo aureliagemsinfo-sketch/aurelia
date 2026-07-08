@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AdminInlineForm, AdminNumberInput, AdminSubmitButton } from "@/components/admin/AdminControls";
 import {
   toggleProductFeaturedAction,
   toggleProductPublishedAction,
@@ -91,27 +92,25 @@ export default async function AdminProductsPage({
                   <p className="text-sm leading-6 text-charcoal/64">{product.category ?? "Not set"}</p>
                   <p className="text-sm leading-6 text-charcoal/64">{product.collection?.name ?? "No collection"}</p>
                   <p className="text-sm leading-6 text-charcoal/64">{product.priceLabel ?? "Not set"}</p>
-                  <form action={toggleProductFeaturedAction}>
+                  <AdminInlineForm action={toggleProductFeaturedAction}>
                     <input name="id" type="hidden" value={product.id} />
                     <input name="next" type="hidden" value={String(!product.isFeatured)} />
-                    <button className="border border-charcoal/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-charcoal/60" type="submit">
+                    <AdminSubmitButton>
                       {product.isFeatured ? "Featured" : "Set Featured"}
-                    </button>
-                  </form>
-                  <form action={toggleProductPublishedAction}>
+                    </AdminSubmitButton>
+                  </AdminInlineForm>
+                  <AdminInlineForm action={toggleProductPublishedAction}>
                     <input name="id" type="hidden" value={product.id} />
                     <input name="next" type="hidden" value={String(!product.isPublished)} />
-                    <button className="border border-charcoal/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-charcoal/60" type="submit">
+                    <AdminSubmitButton>
                       {product.isPublished ? "Published" : "Draft"}
-                    </button>
-                  </form>
-                  <form action={updateProductDisplayOrderAction} className="flex gap-2">
+                    </AdminSubmitButton>
+                  </AdminInlineForm>
+                  <AdminInlineForm action={updateProductDisplayOrderAction}>
                     <input name="id" type="hidden" value={product.id} />
-                    <input className="w-20 border border-charcoal/10 bg-white px-3 py-2 text-sm" min={0} name="sortOrder" type="number" defaultValue={product.sortOrder} />
-                    <button className="border border-charcoal/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-charcoal/60" type="submit">
-                      Save
-                    </button>
-                  </form>
+                    <AdminNumberInput min={0} name="sortOrder" defaultValue={product.sortOrder} />
+                    <AdminSubmitButton>Save</AdminSubmitButton>
+                  </AdminInlineForm>
                   <p className="text-sm text-charcoal/54">{formatDate(product.updatedAt)}</p>
                 </article>
               );

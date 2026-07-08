@@ -1,3 +1,4 @@
+import { AdminInlineForm, AdminSubmitButton } from "@/components/admin/AdminControls";
 import { updateNewsletterSubscriberActiveAction } from "@/server/actions/admin/submissions";
 import { listAdminNewsletterSubscribers } from "@/server/repositories/submissions.repo";
 
@@ -9,8 +10,12 @@ function formatDate(value: Date) {
   }).format(value);
 }
 
-export default async function AdminNewsletterPage() {
-  const subscribers = await listAdminNewsletterSubscribers();
+export default async function AdminNewsletterPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string }>;
+}) {
+  const [subscribers, query] = await Promise.all([listAdminNewsletterSubscribers(), searchParams]);
 
   return (
     <div>
@@ -22,6 +27,17 @@ export default async function AdminNewsletterPage() {
           part of this phase.
         </p>
       </header>
+
+      {query.status === "updated" ? (
+        <p className="mt-6 border border-champagne/24 bg-porcelain/74 px-4 py-3 text-sm text-charcoal/66">
+          Newsletter subscriber status saved.
+        </p>
+      ) : null}
+      {query.status === "error" ? (
+        <p className="mt-6 border border-ruby/20 bg-porcelain/74 px-4 py-3 text-sm text-charcoal/66">
+          Subscriber status could not be saved. Try again from the subscriber row.
+        </p>
+      ) : null}
 
       <section className="mt-9 overflow-hidden border border-charcoal/10 bg-porcelain/64">
         <div className="hidden grid-cols-[1.2fr_0.8fr_0.7fr_0.7fr_0.8fr] gap-4 border-b border-charcoal/10 px-4 py-3 text-[0.62rem] uppercase tracking-[0.18em] text-charcoal/45 xl:grid">
@@ -38,13 +54,13 @@ export default async function AdminNewsletterPage() {
                 <p className="text-sm leading-6 text-charcoal/70">{subscriber.email}</p>
                 <p className="text-sm leading-6 text-charcoal/64">{subscriber.source ?? "website"}</p>
                 <p className="text-sm leading-6 text-charcoal/64">{subscriber.isActive ? "active" : "inactive"}</p>
-                <form action={updateNewsletterSubscriberActiveAction}>
+                <AdminInlineForm action={updateNewsletterSubscriberActiveAction}>
                   <input name="id" type="hidden" value={subscriber.id} />
                   <input name="isActive" type="hidden" value={String(!subscriber.isActive)} />
-                  <button className="border border-charcoal/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-charcoal/60" type="submit">
+                  <AdminSubmitButton>
                     {subscriber.isActive ? "Deactivate" : "Activate"}
-                  </button>
-                </form>
+                  </AdminSubmitButton>
+                </AdminInlineForm>
                 <p className="text-sm text-charcoal/54">{formatDate(subscriber.createdAt)}</p>
               </article>
             ))

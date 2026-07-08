@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { getAdminSession } from "@/server/auth/session";
@@ -26,50 +27,55 @@ async function requireAdmin() {
   return session;
 }
 
-function requiredString(formData: FormData, key: string) {
+function optionalString(formData: FormData, key: string) {
   const value = String(formData.get(key) ?? "").trim();
-  if (!value) {
-    throw new Error(`${key} is required.`);
-  }
-  return value;
+  return value || null;
 }
 
 export async function updateContactSubmissionStatusAction(formData: FormData) {
   await requireAdmin();
 
-  const id = requiredString(formData, "id");
-  const status = enquiryStatusSchema.parse(requiredString(formData, "status")) as EnquiryStatus;
+  const id = optionalString(formData, "id");
+  const parsedStatus = enquiryStatusSchema.safeParse(optionalString(formData, "status"));
+  if (!id || !parsedStatus.success) redirect("/admin/enquiries?status=error");
 
-  await updateContactSubmissionStatus(id, status);
+  await updateContactSubmissionStatus(id, parsedStatus.data as EnquiryStatus);
   revalidatePath("/admin/enquiries");
+  redirect("/admin/enquiries?status=updated");
 }
 
 export async function updateProductEnquiryStatusAction(formData: FormData) {
   await requireAdmin();
 
-  const id = requiredString(formData, "id");
-  const status = enquiryStatusSchema.parse(requiredString(formData, "status")) as EnquiryStatus;
+  const id = optionalString(formData, "id");
+  const parsedStatus = enquiryStatusSchema.safeParse(optionalString(formData, "status"));
+  if (!id || !parsedStatus.success) redirect("/admin/enquiries?status=error");
 
-  await updateProductEnquiryStatus(id, status);
+  await updateProductEnquiryStatus(id, parsedStatus.data as EnquiryStatus);
   revalidatePath("/admin/enquiries");
+  redirect("/admin/enquiries?status=updated");
 }
 
 export async function updateAppointmentRequestStatusAction(formData: FormData) {
   await requireAdmin();
 
-  const id = requiredString(formData, "id");
-  const status = appointmentStatusSchema.parse(requiredString(formData, "status")) as AppointmentStatus;
+  const id = optionalString(formData, "id");
+  const parsedStatus = appointmentStatusSchema.safeParse(optionalString(formData, "status"));
+  if (!id || !parsedStatus.success) redirect("/admin/appointments?status=error");
 
-  await updateAppointmentRequestStatus(id, status);
+  await updateAppointmentRequestStatus(id, parsedStatus.data as AppointmentStatus);
   revalidatePath("/admin/appointments");
+  redirect("/admin/appointments?status=updated");
 }
 
 export async function updateNewsletterSubscriberActiveAction(formData: FormData) {
   await requireAdmin();
 
-  const id = requiredString(formData, "id");
-  const isActive = requiredString(formData, "isActive") === "true";
+  const id = optionalString(formData, "id");
+  const isActiveValue = optionalString(formData, "isActive");
+  if (!id || (isActiveValue !== "true" && isActiveValue !== "false")) redirect("/admin/newsletter?status=error");
 
-  await updateNewsletterSubscriberActive(id, isActive);
+  await updateNewsletterSubscriberActive(id, isActiveValue === "true");
   revalidatePath("/admin/newsletter");
+  redirect("/admin/newsletter?status=updated");
 }

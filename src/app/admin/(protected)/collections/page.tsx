@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AdminInlineForm, AdminNumberInput, AdminSubmitButton } from "@/components/admin/AdminControls";
 import {
   toggleCollectionPublishedAction,
   updateCollectionDisplayOrderAction,
@@ -86,21 +87,19 @@ export default async function AdminCollectionsPage({
                     {collection.eyebrow ? <p className="mt-2 text-xs text-charcoal/54">{collection.eyebrow}</p> : null}
                   </div>
                   <p className="text-sm leading-6 text-charcoal/64">{collection.shortDescription ?? collection.summary ?? "No short description set."}</p>
-                  <form action={toggleCollectionPublishedAction}>
+                  <AdminInlineForm action={toggleCollectionPublishedAction}>
                     <input name="id" type="hidden" value={collection.id} />
                     <input name="next" type="hidden" value={String(!collection.isPublished)} />
-                    <button className="border border-charcoal/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-charcoal/60" type="submit">
+                    <AdminSubmitButton>
                       {collection.isPublished ? "Published" : "Draft"}
-                    </button>
-                  </form>
+                    </AdminSubmitButton>
+                  </AdminInlineForm>
                   <p className="text-sm text-charcoal/54">{collection.relatedGems.length}</p>
-                  <form action={updateCollectionDisplayOrderAction} className="flex gap-2">
+                  <AdminInlineForm action={updateCollectionDisplayOrderAction}>
                     <input name="id" type="hidden" value={collection.id} />
-                    <input className="w-20 border border-charcoal/10 bg-white px-3 py-2 text-sm" min={0} name="sortOrder" type="number" defaultValue={collection.sortOrder} />
-                    <button className="border border-charcoal/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-charcoal/60" type="submit">
-                      Save
-                    </button>
-                  </form>
+                    <AdminNumberInput min={0} name="sortOrder" defaultValue={collection.sortOrder} />
+                    <AdminSubmitButton>Save</AdminSubmitButton>
+                  </AdminInlineForm>
                   <p className="text-sm text-charcoal/54">{formatDate(collection.updatedAt)}</p>
                 </article>
               );
